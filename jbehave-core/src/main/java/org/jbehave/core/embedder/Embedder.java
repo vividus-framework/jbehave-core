@@ -232,7 +232,7 @@ public class Embedder {
         }
     }
 
-    private void handleFailures(BatchFailures failures) {
+    protected void handleFailures(BatchFailures failures) {
         if (failures.size() > 0) {
             if (embedderControls().ignoreFailureInStories()) {
                 embedderMonitor.batchFailed(failures);
