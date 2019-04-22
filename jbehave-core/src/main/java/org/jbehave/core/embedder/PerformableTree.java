@@ -7,9 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Consumer;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -127,7 +125,12 @@ public class PerformableTree {
 
         // determine if before and after scenario steps should be run
         boolean runBeforeAndAfterScenarioSteps = shouldRunBeforeOrAfterScenarioSteps(context);
-
+        for (Map<String, String> storyExamplesTableRow : storyExamplesTableRows) {
+            for (Map.Entry<String, String> entry : storyExamplesTableRow.entrySet()) {
+                entry.setValue((String)
+                        context.configuration().parameterConverters().convert(entry.getValue(), String.class));
+            }
+        }
         for (Map<String, String> storyExamplesTableRow : storyExamplesTableRows) {
             for (Scenario scenario : story.getScenarios()) {
                 Map<String, String> scenarioParameters = new HashMap<String, String>(storyParameters);
@@ -161,15 +164,24 @@ public class PerformableTree {
                 List<Map<String, String>> tableRows = table.getRows();
                 for (int exampleIndex = 0; exampleIndex < tableRows.size(); exampleIndex++) {
                     Map<String, String> scenarioParameters = tableRows.get(exampleIndex);
-                    Map<String, String> parameters = new HashMap<String, String>(storyExamplesTableRow);
-                    parameters.putAll(scenarioParameters);
-                    for (Map.Entry<String, String> scenarioParameterEntry : parameters.entrySet()) {
+                    Map<String, String> scenarioParametersCopy = new HashMap<String, String>(storyParameters);
+                    scenarioParametersCopy.putAll(storyExamplesTableRow);
+                    scenarioParametersCopy.putAll(scenarioParameters);
+                    for (Map.Entry<String, String> scenarioParameterEntry : scenarioParametersCopy.entrySet()) {
                         String value = scenarioParameterEntry.getValue();
                         for (Map.Entry<String, String> storyParameterEntry: storyExamplesTableRow.entrySet()) {
                             value = context.configuration().parameterControls().replaceAllDelimitedNames(value,
                                     storyParameterEntry.getKey(), storyParameterEntry.getValue());
                         }
-                        scenarioParameterEntry.setValue(value);
+                        scenarioParameterEntry.setValue((String) context.configuration().parameterConverters()
+                                 .convert(value, String.class));
+                    }
+                    Map<String, String> parameters = new LinkedHashMap<String, String>(scenarioParametersCopy);
+                    for(Map.Entry<String, String> storyExamplesTableRowEntry: storyExamplesTableRow.entrySet()) {
+                        String key = storyExamplesTableRowEntry.getKey();
+                        if(!parameters.containsKey(key)) {
+                            parameters.put(key, storyExamplesTableRowEntry.getValue());
+                        }
                     }
                     addExampleScenario(context, scenario, performableScenario, story, storyAndScenarioMeta,
                             parameters, exampleIndex);
