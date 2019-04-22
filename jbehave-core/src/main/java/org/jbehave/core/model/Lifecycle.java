@@ -66,6 +66,10 @@ public class Lifecycle {
         return unwrap(filter(this.before, scope));
     }
 
+    public List<Steps> getBefore() {
+        return before;
+    }
+
     public boolean hasAfterSteps() {
         return !unwrap(this.after).isEmpty();
     }
@@ -78,6 +82,10 @@ public class Lifecycle {
 
     public List<String> getAfterSteps(Scope scope) {
         return unwrap(filter(this.after, scope));
+    }
+
+    public List<Steps> getAfter() {
+        return after;
     }
 
     public Set<Outcome> getOutcomes(){
