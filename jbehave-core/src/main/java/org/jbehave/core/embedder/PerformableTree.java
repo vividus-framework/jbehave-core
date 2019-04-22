@@ -131,11 +131,13 @@ public class PerformableTree {
                         context.configuration().parameterConverters().convert(entry.getValue(), String.class));
             }
         }
-        for (Map<String, String> storyExamplesTableRow : storyExamplesTableRows) {
+        for (int i = 0; i < storyExamplesTableRows.size(); i++) {
+            Map<String, String> storyExamplesTableRow = storyExamplesTableRows.get(i);
             for (Scenario scenario : story.getScenarios()) {
                 Map<String, String> scenarioParameters = new HashMap<String, String>(storyParameters);
                 PerformableScenario performableScenario = performableScenario(context, story, scenarioParameters,
-                        filterContext, runBeforeAndAfterScenarioSteps, scenario, storyExamplesTableRow);
+                        filterContext, runBeforeAndAfterScenarioSteps, scenario, storyExamplesTableRow,
+                        storyExamplesTable.isEmpty() ? -1 : i);
                 if (performableScenario.isPerformable()) {
                     performableScenarios.add(performableScenario);
                 }
@@ -146,13 +148,18 @@ public class PerformableTree {
 
     private PerformableScenario performableScenario(RunContext context, Story story,
             Map<String, String> storyParameters, FilteredStory filterContext, boolean runBeforeAndAfterScenarioSteps,
-            Scenario scenario, Map<String, String> storyExamplesTableRow) {
+            Scenario originalScenario, Map<String, String> storyExamplesTableRow, int storyExamplesTableRowIndex) {
+        Scenario scenario = originalScenario;
+        if (storyExamplesTableRowIndex != -1) {
+            scenario = new Scenario(scenario.getTitle() + " [" + (storyExamplesTableRowIndex + 1) + "]",
+                scenario.getMeta(),  scenario.getGivenStories(), scenario.getExamplesTable(), scenario.getSteps());
+        }
         PerformableScenario performableScenario = new PerformableScenario(scenario, story.getPath());
         if (context.failureOccurred() && context.configuration().storyControls().skipScenariosAfterFailure()) {
             return performableScenario;
         }
 
-        boolean scenarioAllowed = filterContext.allowed(scenario);
+        boolean scenarioAllowed = filterContext.allowed(originalScenario);
 
         performableScenario.allowed(scenarioAllowed);
 

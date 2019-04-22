@@ -69,7 +69,8 @@ public class PerformableTreeConversionBehaviour {
         ExamplesTable scenarioExamplesTable = new ExamplesTable("").withRows(
                 Arrays.asList(scenarioExample, scenarioExampleSecond));
 
-        Scenario scenario = new Scenario("scenario title", new Meta(), givenStories, scenarioExamplesTable, Collections.<String>emptyList());
+        String scenarioTitle = "scenario title";
+        Scenario scenario = new Scenario(scenarioTitle, new Meta(), givenStories, scenarioExamplesTable, Collections.<String>emptyList());
 
         Narrative narrative = mock(Narrative.class);
         Lifecycle lifecycle = mock(Lifecycle.class);
@@ -107,6 +108,7 @@ public class PerformableTreeConversionBehaviour {
                 .getScenarios();
 
         assertEquals(scenarioExample.size(), performableScenarios.size());
+        assertEquals(scenarioTitle + " [1]", performableScenarios.get(0).getScenario().getTitle());
         List<PerformableTree.ExamplePerformableScenario> examplePerformableScenarios = performableScenarios.get(0)
                 .getExamples();
         assertEquals(scenarioExample.size(), examplePerformableScenarios.size());
@@ -118,6 +120,7 @@ public class PerformableTreeConversionBehaviour {
         assertEquals("bB", examplePerformableScenarios.get(1).getParameters().get("var2"));
         assertEquals("hH", examplePerformableScenarios.get(1).getParameters().get("var3"));
 
+        assertEquals(scenarioTitle + " [2]", performableScenarios.get(1).getScenario().getTitle());
         examplePerformableScenarios = performableScenarios.get(1).getExamples();
         assertEquals(scenarioExample.size(), examplePerformableScenarios.size());
         assertEquals("eE", examplePerformableScenarios.get(0).getParameters().get("var1"));
