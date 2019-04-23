@@ -60,7 +60,7 @@ public class CrossReferenceBehaviour {
         root.add(performableStory);
         Scenario scenario = new Scenario(Arrays.asList(""));
         PerformableScenario performableScenario = new PerformableScenario(scenario, story.getPath());
-        performableStory.add(performableScenario);
+        performableStory.addAll(Arrays.asList(performableScenario));
         List<StepMatch> stepMatches = new ArrayList<>();
         stepMatches.add(new StepMatch(new StepPattern(StepType.GIVEN, "(def)", "[abc]")));
         NormalPerformableScenario normalScenario = new NormalPerformableScenario(story, scenario);

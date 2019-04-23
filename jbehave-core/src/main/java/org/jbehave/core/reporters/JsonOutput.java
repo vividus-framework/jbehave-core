@@ -79,6 +79,10 @@ public class JsonOutput extends PrintStreamOutput {
             print("\"stories\": [");
             storyPublishingLevel ++;
         }
+        //Closing "examples" if "steps" are empty
+        if ("afterExamples".equals(key) && !stepPublishing) {
+            print("}");
+        }
         if (stepPublishing) {
             if ("example".equals(key) || "exampleScenariosEnd".equals(key)) {
                 // Closing previous "example"
