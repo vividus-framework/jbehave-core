@@ -12,6 +12,14 @@
   <name>JBehave</name>
   <description>JBehave Core is a project providing core functionality supporting and facilitating Behaviour-Driven Development.</description>
 
+  <distributionManagement>
+    <repository>
+      <id>bintray-vividus-maven-releases</id>
+      <name>vividus-maven-releases</name>
+      <url>https://api.bintray.com/maven/vividus/maven-releases/jbehave/</url>
+    </repository>
+  </distributionManagement>
+
   <properties>
     <jdk.version>1.8</jdk.version>
     <junit.version>4.13.1</junit.version>
