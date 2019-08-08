@@ -346,9 +346,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git://github.com/jbehave/jbehave-core.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/jbehave/jbehave-core.git</developerConnection>
-    <url>http://github.com/jbehave/jbehave-core</url>
+    <connection>scm:git:git://github.com/vividus-framework/jbehave-core.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/vividus-framework/jbehave-core.git</developerConnection>
+    <url>http://github.com/vividus-framework/jbehave-core</url>
     <tag>HEAD</tag>
   </scm>
 
