@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.vividus</groupId>
     <artifactId>jbehave</artifactId>
-    <version>4.5.2-alpha.3</version>
+    <version>4.6-SNAPSHOT</version>
   </parent>
   <artifactId>jbehave-odf</artifactId>
   <name>JBehave ODF</name>
