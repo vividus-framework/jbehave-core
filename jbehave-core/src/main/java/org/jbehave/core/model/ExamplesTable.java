@@ -200,7 +200,8 @@ public class ExamplesTable {
         this.parameterControls = parameterControls;
         this.tableTransformers = tableTransformers;
         this.defaults = new ConvertedParameters(EMPTY_MAP, parameterConverters);
-        String tableWithoutProperties = stripProperties(headerSeparator, valueSeparator, ignorableSeparator);
+        String tableWithoutProperties = stripProperties(headerSeparator, valueSeparator, ignorableSeparator,
+        		parameterConverters);
         String transformedTable = applyTransformers(tableWithoutProperties);
         parseByRows(transformedTable);
     }
@@ -215,7 +216,8 @@ public class ExamplesTable {
         this.defaults = defaults;
     }
 
-    private String stripProperties(String headerSeparator, String valueSeparator, String ignorableSeparator) {
+    private String stripProperties(String headerSeparator, String valueSeparator, String ignorableSeparator,
+    		ParameterConverters parameterConverters) {
         String  tableWithoutProperties = tableAsString.trim();
         Matcher matcher = INLINED_PROPERTIES_PATTERN.matcher(tableWithoutProperties);
         while (matcher.matches()) {
@@ -223,12 +225,13 @@ public class ExamplesTable {
             propertiesAsString = StringUtils.replace(propertiesAsString, "\\{", "{");
             propertiesAsString = StringUtils.replace(propertiesAsString, "\\}", "}");
             propertiesList.add(new ExamplesTableProperties(propertiesAsString, headerSeparator,
-                    valueSeparator, ignorableSeparator));
+                    valueSeparator, ignorableSeparator, parameterConverters));
             tableWithoutProperties = matcher.group(2).trim();
             matcher = INLINED_PROPERTIES_PATTERN.matcher(tableWithoutProperties);
         }
         if (propertiesList.isEmpty()) {
-            propertiesList.add(new ExamplesTableProperties("", headerSeparator, valueSeparator, ignorableSeparator));
+            propertiesList.add(new ExamplesTableProperties("", headerSeparator, valueSeparator, ignorableSeparator,
+            		parameterConverters));
         }
         return tableWithoutProperties;
     }
