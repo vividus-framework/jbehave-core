@@ -2,17 +2,22 @@ package org.jbehave.core.model;
 
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.configuration.Keywords;
 import org.jbehave.core.model.ExamplesTable.ExamplesTableData;
 import org.jbehave.core.model.ExamplesTable.ExamplesTableProperties;
+import org.jbehave.core.model.ExamplesTable.ParsedExamplesTableData;
 import org.jbehave.core.steps.ParameterConverters;
 
 public class TableParsers {
+
+    private static final String ROW_SEPARATOR_PATTERN = "\r?\n";
 
     public TableParsers(){}
 
@@ -40,6 +45,32 @@ public class TableParsers {
             properties.add(new ExamplesTableProperties("", headerSeparator, valueSeparator, ignorableSeparator, parameterConverters));
         }
         return new ExamplesTableData(tableWithoutProperties, properties);
+    }
+
+    public ParsedExamplesTableData parseByRows(String tableAsString, ExamplesTableProperties properties) {
+        List<String> headers = new ArrayList<>();
+        List<Map<String, String>> data = new ArrayList<>();
+
+        String[] rows = tableAsString.split(ROW_SEPARATOR_PATTERN);
+        for (String row : rows) {
+            if (row.startsWith(properties.getIgnorableSeparator()) || row.isEmpty()) {
+                // skip ignorable or empty lines
+                continue;
+            } else if (headers.isEmpty()) {
+                headers.addAll(parseRow(row, true, properties));
+            } else {
+                List<String> columns = parseRow(row, false, properties);
+                Map<String, String> map = new LinkedHashMap<>();
+                for (int column = 0; column < columns.size(); column++) {
+                    if (column < headers.size()) {
+                        map.put(headers.get(column), columns.get(column));
+                    }
+                }
+                data.add(map);
+            }
+        }
+
+        return new ParsedExamplesTableData(headers, data);
     }
 
     public List<String> parseRow(String rowAsString, boolean header, ExamplesTableProperties properties) {
