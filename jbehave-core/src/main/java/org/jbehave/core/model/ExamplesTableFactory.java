@@ -94,7 +94,7 @@ public class ExamplesTableFactory {
     }
 
     private TablePropertiesQueue getPropertiesData(String input) {
-        return tableParsers.parseProperties(input, keywords);
+        return tableParsers.parseProperties(input, keywords, parameterConverters);
     }
 
     public void useKeywords(Keywords keywords){

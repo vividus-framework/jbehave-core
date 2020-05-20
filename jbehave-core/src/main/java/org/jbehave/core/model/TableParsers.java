@@ -13,6 +13,7 @@ import org.jbehave.core.configuration.Keywords;
 import org.jbehave.core.model.ExamplesTable.TableProperties;
 import org.jbehave.core.model.ExamplesTable.TablePropertiesQueue;
 import org.jbehave.core.model.ExamplesTable.TableRows;
+import org.jbehave.core.steps.ParameterConverters;
 
 public class TableParsers {
 
@@ -20,13 +21,14 @@ public class TableParsers {
 
     public TableParsers(){}
 
-    public TablePropertiesQueue parseProperties(String tableAsString, Keywords keywords) {
+    public TablePropertiesQueue parseProperties(String tableAsString, Keywords keywords,
+            ParameterConverters parameterConverters) {
         return parseProperties(tableAsString, keywords.examplesTableHeaderSeparator(), keywords.examplesTableValueSeparator(),
-                keywords.examplesTableIgnorableSeparator());
+                keywords.examplesTableIgnorableSeparator(), parameterConverters);
     }
 
     public TablePropertiesQueue parseProperties(String tableAsString, String headerSeparator, String valueSeparator,
-                                                              String ignorableSeparator) {
+            String ignorableSeparator, ParameterConverters parameterConverters) {
         Deque<TableProperties> properties = new LinkedList<>();
         String tableWithoutProperties = tableAsString.trim();
         Matcher matcher = ExamplesTable.INLINED_PROPERTIES_PATTERN.matcher(tableWithoutProperties);
@@ -35,12 +37,12 @@ public class TableParsers {
             propertiesAsString = StringUtils.replace(propertiesAsString, "\\{", "{");
             propertiesAsString = StringUtils.replace(propertiesAsString, "\\}", "}");
             properties.add(new TableProperties(propertiesAsString, headerSeparator,
-                    valueSeparator, ignorableSeparator));
+                    valueSeparator, ignorableSeparator, parameterConverters));
             tableWithoutProperties = matcher.group(2).trim();
             matcher = ExamplesTable.INLINED_PROPERTIES_PATTERN.matcher(tableWithoutProperties);
         }
         if (properties.isEmpty()) {
-            properties.add(new TableProperties("", headerSeparator, valueSeparator, ignorableSeparator));
+            properties.add(new TableProperties("", headerSeparator, valueSeparator, ignorableSeparator, parameterConverters));
         }
         return new TablePropertiesQueue(tableWithoutProperties, properties);
     }

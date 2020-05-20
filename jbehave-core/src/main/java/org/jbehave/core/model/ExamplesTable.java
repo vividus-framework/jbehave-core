@@ -33,7 +33,6 @@ import org.jbehave.core.steps.Row;
 
 import static java.lang.Boolean.parseBoolean;
 import static java.util.regex.Pattern.DOTALL;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * <p>
@@ -195,7 +194,7 @@ public class ExamplesTable {
     public ExamplesTable(String tableAsString, String headerSeparator, String valueSeparator,
                          String ignorableSeparator, ParameterConverters parameterConverters, ParameterControls parameterControls,
                          TableParsers tableParsers, TableTransformers tableTransformers) {
-        this(tableParsers.parseProperties(tableAsString, headerSeparator, valueSeparator, ignorableSeparator),
+        this(tableParsers.parseProperties(tableAsString, headerSeparator, valueSeparator, ignorableSeparator, parameterConverters),
                 parameterConverters, parameterControls, tableParsers, tableTransformers);
     }
 
@@ -426,7 +425,7 @@ public class ExamplesTable {
     }
 
     public boolean isEmpty() {
-        return headers.isEmpty();
+        return getHeaders().isEmpty();
     }
 
     public void outputTo(PrintStream output) {
@@ -531,20 +530,28 @@ public class ExamplesTable {
 
         public TableProperties(String propertiesAsString, String defaultHeaderSeparator, String defaultValueSeparator,
                                String defaultIgnorableSeparator) {
+            this(propertiesAsString, defaultHeaderSeparator, defaultValueSeparator, defaultIgnorableSeparator, null);
+        }
+
+        public TableProperties(String propertiesAsString, String defaultHeaderSeparator, String defaultValueSeparator,
+                String defaultIgnorableSeparator, ParameterConverters parameterConverters) {
             properties.setProperty(HEADER_SEPARATOR_KEY, defaultHeaderSeparator);
             properties.setProperty(VALUE_SEPARATOR_KEY, defaultValueSeparator);
             properties.setProperty(IGNORABLE_SEPARATOR_KEY, defaultIgnorableSeparator);
-            properties.putAll(parseProperties(propertiesAsString));
+            properties.putAll(parseProperties(propertiesAsString, parameterConverters));
             this.propertiesAsString = propertiesAsString;
         }
 
-        private Map<String, String> parseProperties(String propertiesAsString) {
+        private Map<String, String> parseProperties(String propertiesAsString, ParameterConverters parameterConverters) {
             Map<String, String> result = new LinkedHashMap<>();
-            if (!isEmpty(propertiesAsString)) {
+            if (!StringUtils.isEmpty(propertiesAsString)) {
                 for (String propertyAsString : propertiesAsString.split("(?<!\\\\),")) {
                     String[] property = StringUtils.split(propertyAsString, EQUAL, 2);
                     String propertyName = property[0];
                     String propertyValue = property[1];
+                    if (parameterConverters != null) {
+                        propertyValue = (String) parameterConverters.convert(propertyValue, String.class);
+                    }
                     Matcher decoratedPropertyMatcher = DECORATED_PROPERTY_PATTERN.matcher(propertyName);
                     if (decoratedPropertyMatcher.matches()) {
                         String[] propertyWithDecorators = decoratedPropertyMatcher.group(1).split(PIPE_REGEX);
