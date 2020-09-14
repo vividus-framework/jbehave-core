@@ -482,11 +482,11 @@ public class PrintStreamOutputBehaviour extends AbstractOutputBehaviour {
                 + "{\"keyword\": \"Lifecycle:\"},\"scenarios\": [{\"keyword\": \"Scenario:\", \"title\": \"Normal "
                 + "scenario\",\"examples\": {\"keyword\": \"Examples:\",\"steps\": [\"Then '<expected>' is equal to "
                 + "'<actual>'\"],\"parameters\": {\"names\": [],\"values\": []}, \"examples\": [{\"keyword\": "
-                + "\"Example:\", \"value\": \"{actual=some data, expected=some data}\",\"steps\": [{\"outcome\": "
+                + "\"Example:\", \"parameters\": {\"actual\":\"some data\",\"expected\":\"some data\"},\"steps\": [{\"outcome\": "
                 + "\"successful\", \"value\": \"Then '((some data))' is ((equal to)) '((some data))'\"}]}]}},"
                 + "{\"keyword\": \"Scenario:\", \"title\": \"Some empty scenario\",\"examples\": {\"keyword\": "
                 + "\"Examples:\",\"steps\": [],\"parameters\": {\"names\": [],\"values\": []}, \"examples\": "
-                + "[{\"keyword\": \"Example:\", \"value\": \"{actual=some data, expected=some data}\"}]}}]}";
+                + "[{\"keyword\": \"Example:\", \"parameters\": {\"actual\":\"some data\",\"expected\":\"some data\"}}]}}]}";
 
         assertThat(dos2unix(out.toString()), equalTo(expected));
     }
