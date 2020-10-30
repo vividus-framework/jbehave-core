@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.vividus</groupId>
     <artifactId>jbehave</artifactId>
-    <version>4.8.0-alpha.4</version>
+    <version>4.8-SNAPSHOT</version>
   </parent>
   <packaging>jar</packaging>
   <artifactId>jbehave-core</artifactId>
