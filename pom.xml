@@ -8,7 +8,7 @@
   <groupId>org.vividus</groupId>
   <artifactId>jbehave</artifactId>
   <packaging>pom</packaging>
-  <version>4.9-SNAPSHOT</version>
+  <version>4.9.0-alpha</version>
   <name>JBehave</name>
   <description>JBehave Core is a project providing core functionality supporting and facilitating Behaviour-Driven Development.</description>
 
@@ -349,7 +349,7 @@
     <connection>scm:git:git://github.com/vividus-framework/jbehave-core.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/vividus-framework/jbehave-core.git</developerConnection>
     <url>http://github.com/vividus-framework/jbehave-core</url>
-    <tag>HEAD</tag>
+    <tag>jbehave-4.9.0-alpha</tag>
   </scm>
 
 </project>
