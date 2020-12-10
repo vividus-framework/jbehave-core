@@ -29,7 +29,7 @@
     </pluginExecution>
     <pluginExecution>
       <pluginExecutionFilter>
-        <groupId>org.jbehave</groupId>
+        <groupId>org.vividus</groupId>
         <artifactId>jbehave-maven-plugin</artifactId>
         <versionRange>[3.0,)</versionRange>
         <goals>

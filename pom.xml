@@ -5,6 +5,7 @@
     <artifactId>jbehave-pom</artifactId>
     <version>1</version>
   </parent>
+  <groupId>org.vividus</groupId>
   <artifactId>jbehave</artifactId>
   <packaging>pom</packaging>
   <version>4.9-SNAPSHOT</version>

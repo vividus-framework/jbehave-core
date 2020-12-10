@@ -2,16 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.jbehave</groupId>
+    <groupId>org.vividus</groupId>
     <artifactId>jbehave-examples</artifactId>
     <version>4.9-SNAPSHOT</version>
   </parent>
-  <artifactId>jbehave-google-example</artifactId>
+    <artifactId>jbehave-google-example</artifactId>
   <name>JBehave Google Example</name>
 
   <dependencies>
     <dependency>
-      <groupId>org.jbehave</groupId>
+      <groupId>org.vividus</groupId>
       <artifactId>jbehave-google</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -25,7 +25,7 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.jbehave</groupId>
+        <groupId>org.vividus</groupId>
         <artifactId>jbehave-maven-plugin</artifactId>
         <executions>
           <execution>

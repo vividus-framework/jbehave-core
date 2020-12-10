@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>jbehave-examples</artifactId>
-    <groupId>org.jbehave</groupId>
+    <groupId>org.vividus</groupId>
     <version>4.9-SNAPSHOT</version>
   </parent>
-  <artifactId>jbehave-groovy-example</artifactId>
+    <artifactId>jbehave-groovy-example</artifactId>
   <name>JBehave Groovy Example</name>
 
   <properties>
@@ -15,7 +15,7 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.jbehave</groupId>
+      <groupId>org.vividus</groupId>
       <artifactId>jbehave-groovy</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -37,7 +37,7 @@
     </resources>
     <plugins>
       <plugin>
-        <groupId>org.jbehave</groupId>
+        <groupId>org.vividus</groupId>
         <artifactId>jbehave-maven-plugin</artifactId>
         <executions>
           <execution>

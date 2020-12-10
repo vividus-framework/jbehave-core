@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>jbehave-examples</artifactId>
-    <groupId>org.jbehave</groupId>
+    <groupId>org.vividus</groupId>
     <version>4.9-SNAPSHOT</version>
   </parent>
-  <artifactId>jbehave-jruby-example</artifactId>
+    <artifactId>jbehave-jruby-example</artifactId>
   <name>JBehave JRuby Example</name>
 
   <properties>
@@ -17,7 +17,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jbehave</groupId>
+      <groupId>org.vividus</groupId>
       <artifactId>jbehave-core</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -79,7 +79,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.jbehave</groupId>
+        <groupId>org.vividus</groupId>
         <artifactId>jbehave-maven-plugin</artifactId>
         <executions>
           <execution>
